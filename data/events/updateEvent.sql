@@ -6,7 +6,6 @@
 --     [avenue] = @avenue,
 --     [maxMembers] = @maxMembers
 -- WHERE [eventId] =@eventId
-
 -- SELECT [eventId],
 --     [eventTitle],
 --     [eventDescription],
