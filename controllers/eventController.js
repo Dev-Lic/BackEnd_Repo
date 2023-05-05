@@ -21,13 +21,17 @@ const getEvents = async (req , res, next) => {
 
 //---------------get One event------------
 const getEvent = async(req,res,next) => {
+   console.log('-----home---');
    try{
       const eventId = req.params.id ;
-      const oneEvent = await eventData.getById(eventId);
-      res.send(oneEvent);
+      console.log('-----home1---');
+      // const oneEvent = await eventData.getById(eventId);
+      // res.send(oneEvent);
+      
 
    }catch (error) {
       res.status(400).send(error.message);
+
    }
 }
 
