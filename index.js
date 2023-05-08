@@ -12,16 +12,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-  app.use('/api', eventRoutes.routes);
+app.use('/api', eventRoutes.routes);
   
-
-
-  // assert(PORT,'PORT is required');
-//   app.listen(PORT, function(err){
-//     if (err) console.log("Error in server setup")
-//     console.log("Server listening on Port", PORT);
-  
-// })
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
