@@ -6,20 +6,10 @@ const express = require("express");
 const router = express.Router();
 const sql = require("mssql");
 const { pool } = require("../dbFiles/dbConfig");
+const { getInvoices } = require("../controllers/eventController");
 
 
-router.get("/home", (req, res) => {
-  const request = new sql.Request(pool);
-  request
-    .query("SELECT * FROM TEIS")
-    .then((result) => {
-      res.send(result.recordset);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error fetching users from database");
-    })
-});
+router.get("/Invoices", getInvoices);
 
 
 

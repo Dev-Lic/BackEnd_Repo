@@ -16,8 +16,11 @@ app.use(bodyParser.json());
 
 
   // assert(PORT,'PORT is required');
-  app.listen(PORT, function(err){
-    if (err) console.log("Error in server setup")
-    console.log("Server listening on Port", PORT);
+//   app.listen(PORT, function(err){
+//     if (err) console.log("Error in server setup")
+//     console.log("Server listening on Port", PORT);
   
-})
+// })
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
