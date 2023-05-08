@@ -3,19 +3,7 @@
 const utils = require("../utils");
 const config = require("../../config");
 const sql = require("mssql");
-sql.connect(
-  {
-    user: "sa",
-    password: "1234",
-    server: "localhost",
-    database: "eventmanagement",
-  },
-  (err) => {
-    if (err) {
-      console.log('connection : ' , err);
-    }
-  }
-);
+
 
 //---------------get All events------------
 const getEvents = async () => {

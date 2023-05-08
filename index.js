@@ -12,6 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-app.use('/api', eventRoutes.routes);
+
+
+  app.use('/api', eventRoutes.routes);
+
 
 app.listen(config.port, () => console.log('server is listening on http://localhost:' +config.port)); 
