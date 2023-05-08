@@ -5,7 +5,7 @@ const express = require("express");
 
 const router = express.Router();
 const sql = require("mssql");
-const { pool } = require("../src/API/controllers/dbFiles/dbConfig");
+const { pool } = require("../dbFiles/dbConfig");
 
 
 router.get("/home", (req, res) => {
