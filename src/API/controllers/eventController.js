@@ -56,12 +56,6 @@ const getInvoicebyId = (req, res) => {
       });
    };
 
-
-
-   
-
-
-
 //-------------------Get a single Invoice byId End Here -------------
 
 

@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 
   app.use('/api', eventRoutes.routes);
+  
 
 
   // assert(PORT,'PORT is required');
