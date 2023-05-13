@@ -1,0 +1,1 @@
+var { Billing_Org, Billing_Dept, Charged_Org, Charged_Org_Name, Charged_Dep, Fiscal_Month, Charge_Type, Charge_Unit, Charge_Description="Hey this is me ", Charge_Amount, Billable_Amount, Hyperion_Profit_Center, SAP_Profit_Center, Charge_Category, Revenue_Type, Charged_entity, Year, Month } = req.body;
