@@ -57,32 +57,15 @@ const getInvoicebyId = (req, res) => {
 //--------------------Post methode to add an invoice--------------------
  async function  addInvoice (req, res) {
 
-const Billing_Org = req.body.Billing_Org;
-const Billing_Dept = req.body.Billing_Dept;
-const Charged_Org = req.body.Charged_Org;
-const Charged_Org_Name = req.body.Charged_Org_Name;
-const Charged_Dep = req.body.Charged_Dep;
-const Fiscal_Month = req.body.Fiscal_Month;
-const Charge_Type = req.body.Charge_Type;
-const Charge_Type_Description = req.body.Charge_Type_Description;
-const Charge_Unit = req.body.Charge_Unit;
-const Charge_Description = req.body.Charge_Description || 'Default Description';
-const Charge_Amount = req.body.Charge_Amount;
-const Billable_Amount = req.body.Billable_Amount;
-const Hyperion_Profit_Center = req.body.Hyperion_Profit_Center;
-const SAP_Profit_Center = req.body.SAP_Profit_Center;
-const Charge_Category = req.body.Charge_Category;
-const Revenue_Type = req.body.Revenue_Type;
-const Charged_entity = req.body.Charged_entity;
-const Year = req.body.Year;
-const Month = req.body.Month;
 
-// const query = "INSERT INTO TEIS (Billing_Org, Billing_Dept, Charged_Org, Charged_Org_Name, Charged_Dep, Fiscal_Month, Charge_Type, Charge_Type_Description, Charge_Unit, Charge_Description, Charge_Amount, Billable_Amount, Hyperion_Profit_Center, SAP_Profit_Center, Charge_Category, Revenue_Type, Charged_entity, Year, Month) VALUES ('" + Billing_Org + "', '" + Billing_Dept + "', '" + Charged_Org + "', '" + Charged_Org_Name + "', '" + Charged_Dep + "', '" + Fiscal_Month + "', '" + Charge_Type + "', '" + Charge_Type_Description + "', '" + Charge_Unit + "', '" + Charge_Description + "', '" + Charge_Amount + "', '" + Billable_Amount + "', '" + Hyperion_Profit_Center + "', '" + SAP_Profit_Center + "', '" + Charge_Category + "', '" + Revenue_Type + "', '" + Charged_entity + "', '" + Year + "', '" + Month + "')";
+const {Billing_Org, Billing_Dept, Charged_Org, Charged_Org_Name, Charged_Dep, Fiscal_Month, Charge_Type, Charge_Type_Description, Charge_Unit, Charge_Description = 'Default Description', Charge_Amount, Billable_Amount, Hyperion_Profit_Center, SAP_Profit_Center, Charge_Category, Revenue_Type, Charged_entity, Year, Month} = req.body;
+
 
 const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Org],[Charged_Org_Name],[Charged_Dep],[Fiscal_Month],[Charge_Type],[Charge_Type_Description],[Charge_Unit],[Charge_Description],[Charge_Amount],[Billable_Amount],[Hyperion_Profit_Center],[SAP_Profit_Center],[Charge_Category],[Revenue_Type],[Charged_entity],[Year],[Month])VALUES( @Billing_Org, @Billing_Dept, @Charged_Org, @Charged_Org_Name, @Charged_Dep, @Fiscal_Month, @Charge_Type, @Charge_Type_Description,@Charge_Unit,@Charge_Description,@Charge_Amount,@Billable_Amount,@Hyperion_Profit_Center,@SAP_Profit_Center,@Charge_Category,@Revenue_Type,@Charged_entity,@Year,@Month) "
 
    pool.connect().then(() =>{ 
-     const request = new sql.Request(pool);
+    
+   const request = new sql.Request(pool);
       request
       .input("Billing_Org", sql.NChar(10), Billing_Org)
       .input("Billing_Dept", sql.NChar(10), Billing_Dept)
@@ -102,9 +85,12 @@ const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Or
       .input("Revenue_Type", sql.NChar(10), Revenue_Type)
       .input("Charged_entity", sql.NChar(10), Charged_entity)
       .input("Year", sql.Int, Year)
-      .input("Month", sql.NChar(10), Month)
-      .query(query)
+      .input("Month", sql.NChar(10), Month);
+      
+      
+      request.query(query)
       .then((result) => {
+         console.log("result : ", result)
         res.status(200).send("Invoice saved successfully.");
       })
       .catch((err) => {
