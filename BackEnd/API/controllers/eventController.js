@@ -40,6 +40,7 @@ const getInvoicebyId = (req, res) => {
       .query('SELECT * FROM TEIS WHERE Id = @id')
       .then((result) => {
         res.send(result.recordset);
+   
       }).catch((err) => {
         console.error(err);
         res.status(500).send("Error fetching users from database");

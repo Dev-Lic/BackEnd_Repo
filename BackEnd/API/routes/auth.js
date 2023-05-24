@@ -1,113 +1,104 @@
 require('dotenv').config()
 const router = require("express").Router();
-const { check, validationResult } = require("express-validator")
+const {sign, verify} = require("jsonwebtoken")
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken")
 
-const bcrypt = require("bcrypt");
-const JWT = require("jsonwebtoken");
-const {users} = require("../../dbFiles/db");
+const {pool} = require('../../dbFiles/dbConfig')
+const sql = require("mssql");
+const db = require('../../../models')
+const {User} = require('../../../models/') ;
+const cookieParser = require("cookie-parser")
 
-router.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
 
-    // Validate the inputs 
-    const errors = validationResult(req);
+db.sequelize.sync().then((req) =>{
 
-    if(!errors.isEmpty()){
-        return res.status(422).json({
-            errors: errors.array()
-        })
-    }
+  
 
-    // Validate if the user doesnt already exist;
-    let user = users.find((user) => {
-        return user.email === email
-    });
 
-    if(user) {
-        return res.status(422).json({
-            errors: [
-                {
-                    msg: "This user already exists",
-                }
-            ]
-        })
-    }
+  router.get("/",(req,res)=>{
+    res.render("index.ejs");
+  })
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+  // router.get("/users/register", (req,res)=>{
+  //   res.render("register.ejs");
 
-    // Save the password into the db
-    users.push({
-        email,
-        password: hashedPassword
-    });
+    
+  // })
 
-    const token = await JWT.sign({ email }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: 360000});
+  router.get("/users/login", (req,res)=>{
+    res.render("login.ejs");
+  })
 
-    res.json({
-        token
+
+
+
+  router.get("/select", (req, res)=>{
+    User.findAll()
+    .then((Users)=>{
+       res.send(Users);
+    }).catch((err) =>{
+    console.log(err);
     })
-})
+   });
 
 
+   router.post("/register", async (req,res) =>{
+    const {email, password } = req.body;
+    await bcrypt.hash(password, 10).then((hash)=>{
+      User.create({
+        email: email,
+        password: hash,
+      })
+       .then(()=>{
+        res.json("USER REGISTERED");
+       })
+       .catch((err) =>{
+        if(err){
+          res.status(400).json({error:err});
+          console.log(err)
 
-
-
-router.post('/login' , async(req ,res)=>{
-    const {email , password} = req.body;
-   
-    let user = users.find((user) => {
-        return user.email === email;
-    });
-
-    if(!user){
-        return res.status(400).json({
-            "errors":[
-                {
-                    "message": "Invalid Credentials"
-                }
-            ]
-        })
-    }
-       let isMatch = await bcrypt.compare(password,user.password);
-
-       if(!isMatch){
-        return res.status(400).json({
-            "errors":[
-                {
-                    "message": "Invalid Credentials"
-                }
-            ]
-        })
-        };
-
-    // // Hashing the password 
-
-    // let hashedPassword = await bcrypt.hash(password,10);
-    // console.log(hashedPassword);
-    // res.send("Validation Past")
-    //Sending a JWT 
-    const token = await JWT.sign({ email ,
-    },process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn:36000000
+        }
+       })
     })
+    
+  });
 
-    res.json({token})
+
+  router.post("/login", async (req, res) => {
+    //last code updated 
+        // Our login logic starts here
+    // 1. Get email and password from the request
+    const { email , password} = req.body;
+    // 2. Search to see if email is attatched to a user in DB 
+    const user = await User.findOne({where: {email: email}});
+    // 3. Check if the user existe
+    if(!user) res.status(400).json({error:"User Doesn't Exist"});
+    
+    // 4. Check is the password is the same 
+    // const dbPassword = user.password;
+    bcrypt.compare(password, user.password).then((match)=>{
+      if(!match) {
+        res
+          .status(400)
+          .json({error: "Wrong Credentials!"});
+      }
+      else {
+       
+ 
+    
+
+        res.json("LOGGED IN");
+      }
+    })
+    //5. Dealing with JWT 
 
 
+    
+        // Our register logic ends here
+      });
 })
 
-function authentificateToken(req,res,next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) return res.sendStatus(401)
 
+module.exports = router;
 
-    JWT.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
-        if(err) return res.sendStatus(403)
-        req.user = user
-        next() 
-})
-}
-
-module.exports = router , authentificateToken
