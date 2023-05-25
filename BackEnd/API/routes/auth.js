@@ -15,7 +15,6 @@ db.sequelize.sync().then((req) =>{
 
   
 
-
   router.get("/",(req,res)=>{
     res.render("index.ejs");
   })
@@ -65,7 +64,7 @@ db.sequelize.sync().then((req) =>{
   });
 
 
-  router.post("/login", async (req, res) => {
+  router.post("/login",async (req, res) => {
     //last code updated 
         // Our login logic starts here
     // 1. Get email and password from the request
@@ -84,14 +83,18 @@ db.sequelize.sync().then((req) =>{
           .json({error: "Wrong Credentials!"});
       }
       else {
-       
+    //5. generate access Token 
+        const accessToken = jwt.sign({email: user.email, id: user.id}, process.env.ACCESS_TOKEN_SECRET);
+        console.log(accessToken);
+        res.json ({accessToken: accessToken})
  
-    
+    //6.
 
-        res.json("LOGGED IN");
+    
       }
     })
-    //5. Dealing with JWT 
+
+   
 
 
     
@@ -100,5 +103,5 @@ db.sequelize.sync().then((req) =>{
 })
 
 
-module.exports = router;
+module.exports = router 
 

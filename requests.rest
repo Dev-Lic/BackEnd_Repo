@@ -1,3 +1,25 @@
+POST  http://localhost:2000/api/Invoices/charge
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpamRhbmVlbWlpQGdtYWlsLmNvbSIsImlkIjoyMiwiaWF0IjoxNjg1MDAzODc0fQ.3poyu6eWBzof1-yY_ahDO7jMxtJXECJ0DiZLC8EcNKU
+Content-Type:application/json
+
+{
+    "email": "wijdaneemii@gmail.com",
+    "password": "my-super-secret-password"
+}
+
+###
+
 GET http://localhost:2000/api/Invoices
-Authorization: Bearer
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpamRhbmVAZXhhbXBsZS5jb20iLCJpYXQiOjE2ODQ3ODI5ODMsImV4cCI6MTcyMDc4Mjk4M30.D22_PFJ6lHyP3BcqfZ2203u2QwbgqepCnCzxQS1xCiw"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpamRhbmVlbWlpQGdtYWlsLmNvbSIsImlkIjoyMiwiaWF0IjoxNjg1MDAzODc0fQ.3poyu6eWBzof1-yY_ahDO7jMxtJXECJ0DiZLC8EcNKU
+
+###
+
+POST http://localhost:2000/auth/login
+
+Bearer
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpamRhbmVlbWlpQGdtYWlsLmNvbSIsImlkIjoyMiwiaWF0IjoxNjg1MDAzODc0fQ.3poyu6eWBzof1-yY_ahDO7jMxtJXECJ0DiZLC8EcNKU
+Content-Type:application/json
+{
+   "email": "wijdaneemii@gmail.com",
+   "password": "my-super-secret-password"
+}

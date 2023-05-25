@@ -1,31 +1,43 @@
-const JWT = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 require('dotenv').config()
 
-module.exports = async (req, res ,next ) => {
-    const token = req.header('x-auth-token');
+module.exports = async (req, res ,next) => {
+  //1.Get the Token That the client sent
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if(token == null) 
+  {   console.log(token)
+    return res.status(401).json({error:"No Token Provided"})}
 
-    if(!token){
-        return res.status(400).json({
-            "errors": [
-                {
-                    "msg": "No token, authorization denied"
-                }
-            ]
-        })
-    }
- 
-   try{
-    let user = await JWT.verify(token,process.env.ACCESS_TOKEN_SECRET)
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)=> {
+    if (err) return res.sendStatus(403)
+        req.user = user
+        next();
+  })
+
    
-     req.user = user.email ;
-     next();
+  //2. Verify that it's the correct User
+  //3. Return that user the route that he wants to home page
+}
+  
+  
 
-}catch(error){
-    return res.status(400).json({
-        "errors": 
-        [
-            {
-                "msg": "Token is not valid"
-   }]})
 
-}}
+
+// function authenticateToken(req,res,next){
+//     //1.Get the Token That the client sent
+//     const authHeader = req.headers['authorization']
+//     const token = authHeader && authHeader.split(' ')[1]
+//     if(token == null) return res.status(400).json({error:"No Token Provided"})
+
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)=> {
+//       if (err) return res.sendStatus(403)
+//           req.user = user
+//           next();
+//     })
+
+     
+//     //2. Verify that it's the correct User
+//     //3. Return that user the route that he wants to home page
+//   }

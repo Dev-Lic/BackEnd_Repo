@@ -7,10 +7,8 @@ const eventRoutes = require('./BackEnd/API/routes/eventRoutes');
 const auth = require("./BackEnd/API/routes/auth")
 const app = express();
 const cookieParser = require("cookie-parser")
-
-
-
-
+// const {authenticateToken} = require("./BackEnd/API/routes/auth")
+const checkAuth = require('./BackEnd/API/middlware/checkAuth')
 
 
 const PORT = process.env.PORT || 2000;
@@ -21,7 +19,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
-app.use('/api', eventRoutes.routes);
+app.use('/api',checkAuth,eventRoutes.routes);
 app.use('/auth',auth);
 
 

@@ -8,14 +8,11 @@ const router = express.Router();
 const { getInvoices } = require("../controllers/eventController");
 const { getInvoicebyId } = require("../controllers/eventController");
 const {addInvoice} = require("../controllers/eventController");
-const checkAuth = require('../middlware/checkAuth')
-
-
 
 //Post - api/Invoices/TEIS
-router.get("/Invoices",  getInvoices);
+router.get("/Invoices",getInvoices);
 router.get('/Invoices/:id',getInvoicebyId);
-router.post('/Invoices/charge',checkAuth,addInvoice);
+router.post('/Invoices/charge',addInvoice);
 
 
 
