@@ -1,6 +1,5 @@
 require('dotenv').config()
 const router = require("express").Router();
-const {sign, verify} = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
 
@@ -9,6 +8,9 @@ const sql = require("mssql");
 const db = require('../../../models')
 const {User} = require('../../../models/') ;
 const cookieParser = require("cookie-parser")
+const {sign, verify} = require("jsonwebtoken");
+const { render } = require('ejs');
+
 
 
 db.sequelize.sync().then((req) =>{
@@ -84,11 +86,10 @@ db.sequelize.sync().then((req) =>{
       }
       else {
     //5. generate access Token 
-        const accessToken = jwt.sign({email: user.email, id: user.id}, process.env.ACCESS_TOKEN_SECRET);
-        console.log(accessToken);
+        const accessToken = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
+        // console.log(accessToken);
         res.json ({accessToken: accessToken})
- 
-    //6.
+        
 
     
       }
