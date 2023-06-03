@@ -1,12 +1,30 @@
 
-POST http://localhost:2000/auth/login
-Content-Type: application/json
-{
-   "email": "jason", 
-    "password": "my-super-secret-password"
-}
+POST http://localhost:2000/Invoices/charge
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imphc29uIiwiaWQiOjI0LCJpYXQiOjE2ODUwMTMzNTF9.2Jo6sF2hmZDP3W9K1kF7FEUBSBMjA9ewZrnUuQZYdn8
 
+Content-Type: application/json
+
+{"Billing_Org":"in",
+  "Billing_Dept":"",
+ "Charged_Org":"13457" ,
+ "Charged_Org_Name":"2183" ,
+  "Charged_Dep":" " ,
+   "Fiscal_Month":"JAN-2024" ,
+ "Charge_Type":"TEIS-LE-BDN" ,
+  "Charge_Type_Description":"TEIS-LE-BDN",
+   "Charge_Unit":"" ,
+ "Charge_Description":" TEIS Legal Entity Bulk Debit Note Charges" ,
+ "Charge_Amount":" 976889" ,
+   "Billable_Amount":"Y" ,
+ "Hyperion_Profit_Center":" LGL " ,
+  "SAP_Profit_Center":"996" ,
+   "Charge_Category ":,
+    "Revenue_Type":"" ,
+    "Charged_entity":"2183" ,
+    "Year":"2024" ,
+    "Month":"1098902" 
+}
 ###
 
-GET http://localhost:2000/api/Invoices
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imphc29uIiwiaWQiOjI0LCJpYXQiOjE2ODUwMTMzNTF9.2Jo6sF2hmZDP3W9K1kF7FEUBSBMjA9ewZrnUuQZYdn8
+GET http://localhost:2000/Invoices
+

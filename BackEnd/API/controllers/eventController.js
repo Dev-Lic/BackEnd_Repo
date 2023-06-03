@@ -65,6 +65,8 @@ const {Billing_Org, Billing_Dept, Charged_Org, Charged_Org_Name, Charged_Dep, Fi
 const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Org],[Charged_Org_Name],[Charged_Dep],[Fiscal_Month],[Charge_Type],[Charge_Type_Description],[Charge_Unit],[Charge_Description],[Charge_Amount],[Billable_Amount],[Hyperion_Profit_Center],[SAP_Profit_Center],[Charge_Category],[Revenue_Type],[Charged_entity],[Year],[Month])VALUES( @Billing_Org, @Billing_Dept, @Charged_Org, @Charged_Org_Name, @Charged_Dep, @Fiscal_Month, @Charge_Type, @Charge_Type_Description,@Charge_Unit,@Charge_Description,@Charge_Amount,@Billable_Amount,@Hyperion_Profit_Center,@SAP_Profit_Center,@Charge_Category,@Revenue_Type,@Charged_entity,@Year,@Month) "
 
    pool.connect().then(() =>{ 
+
+      //Take off id 
     
    const request = new sql.Request(pool);
       request

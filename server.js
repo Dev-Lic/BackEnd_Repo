@@ -3,6 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
 const eventRoutes = require('./BackEnd/API/routes/eventRoutes');
 const auth = require("./BackEnd/API/routes/auth")
 const app = express();
@@ -15,14 +16,19 @@ const {sign,verify} = require('jsonwebtoken')
 
 const PORT = process.env.PORT || 2000;
 
-
-app.use(cors());
+app.use(cors({
+   credentials: true,
+   origin:['http://localhost:4200']
+}));
 app.use(bodyParser.json());
+
+app.use(express.json())
+
+
 app.use(cookieParser());
 
-
-app.use('/teis', eventRoutes.routes);
-app.use('/', auth);
+app.use('',authenticateToken, eventRoutes.routes);
+app.use('/auth', auth);
 
 
 function authenticateToken(req, res, next) {

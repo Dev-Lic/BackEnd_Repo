@@ -15,7 +15,8 @@ const { render } = require('ejs');
 
 db.sequelize.sync().then((req) =>{
 
-  
+ router.use(cookieParser());
+
 
   router.get("/",(req,res)=>{
     res.render("index.ejs");
@@ -77,7 +78,7 @@ db.sequelize.sync().then((req) =>{
     if(!user) res.status(400).json({error:"User Doesn't Exist"});
     
     // 4. Check is the password is the same 
-    // const dbPassword = user.password;
+
     bcrypt.compare(password, user.password).then((match)=>{
       if(!match) {
         res
@@ -89,20 +90,23 @@ db.sequelize.sync().then((req) =>{
         const accessToken = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
         // console.log(accessToken);
         res.json ({accessToken: accessToken})
-        
 
-    
+      
       }
-    })
+    })})
+
+    //User route
+
+    router.get('/user',(req,res)=>{
+      const cookie = req.cookies['jwt']
+
+      res.send(cookie)
+     })
 
    
 
-
-    
-        // Our register logic ends here
-      });
 })
 
 
-module.exports = router 
 
+module.exports = router 
