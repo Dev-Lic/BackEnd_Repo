@@ -27,14 +27,17 @@ app.use(express.json())
 
 app.use(cookieParser());
 
-app.use('',authenticateToken, eventRoutes.routes);
 app.use('/auth', auth);
+
+app.use('',authenticateToken,eventRoutes.routes);
+
 
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
-  if (token == null) return res.sendStatus(401)
+  if (token == null){ res.sendStatus(401)
+  }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,User) => {
     if (err) return res.sendStatus(403)
@@ -43,7 +46,6 @@ function authenticateToken(req, res, next) {
     
   })
 }
-
 
 
 

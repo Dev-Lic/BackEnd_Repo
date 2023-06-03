@@ -24,16 +24,11 @@ db.sequelize.sync().then((req) =>{
 
   // router.get("/users/register", (req,res)=>{
   //   res.render("register.ejs");
-
-    
   // })
 
   router.get("/users/login", (req,res)=>{
     res.render("login.ejs");
   })
-
-
-
 
   router.get("/select", (req, res)=>{
     User.findAll()
@@ -77,6 +72,7 @@ db.sequelize.sync().then((req) =>{
     // 3. Check if the user existe
     if(!user){
       res.status(400).json({error:"User Doesn't Exist"});
+    
       return;
     } 
     // 4. Check is the password is the same 
@@ -89,9 +85,10 @@ db.sequelize.sync().then((req) =>{
       }
       else {
     //5. generate access Token 
-        const token = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
-        // console.log(accessToken);
-        res.json ({accessToken: token})
+        const accessToken = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
+        res.json ({accessToken: accessToken})
+        console.log(accessToken);
+
 
       
       }
