@@ -75,8 +75,10 @@ db.sequelize.sync().then((req) =>{
     // 2. Search to see if email is attatched to a user in DB 
     const user = await User.findOne({where: {email: email}});
     // 3. Check if the user existe
-    if(!user) res.status(400).json({error:"User Doesn't Exist"});
-    
+    if(!user){
+      res.status(400).json({error:"User Doesn't Exist"});
+      return;
+    } 
     // 4. Check is the password is the same 
 
     bcrypt.compare(password, user.password).then((match)=>{
@@ -87,13 +89,14 @@ db.sequelize.sync().then((req) =>{
       }
       else {
     //5. generate access Token 
-        const accessToken = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
+        const token = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
         // console.log(accessToken);
-        res.json ({accessToken: accessToken})
+        res.json ({accessToken: token})
 
       
       }
-    })})
+    }
+    )})
 
     //User route
 

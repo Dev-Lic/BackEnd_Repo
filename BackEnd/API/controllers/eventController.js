@@ -94,7 +94,9 @@ const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Or
       request.query(query)
       .then((result) => {
          console.log("result : ", result)
-        res.status(200).send("Invoice saved successfully.");
+      //   res.status(200).send("Invoice saved successfully.");
+      res.json("Invoice saved successfully.");
+
       })
       .catch((err) => {
         console.log(err);
