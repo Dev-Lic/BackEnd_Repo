@@ -10,3 +10,13 @@ Content-Type: application/json
 
 GET http://localhost:2000/api/Invoices
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imphc29uIiwiaWQiOjI0LCJpYXQiOjE2ODUwMTMzNTF9.2Jo6sF2hmZDP3W9K1kF7FEUBSBMjA9ewZrnUuQZYdn8
+
+
+
+###
+POST http://localhost:2000/auth/register
+Content-Type: application/json
+
+{"email": "Example@te.com",
+  "password": "secretpassword"
+   }

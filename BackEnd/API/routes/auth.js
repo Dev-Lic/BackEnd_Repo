@@ -15,24 +15,7 @@ const { render } = require('ejs');
 
 db.sequelize.sync().then((req) =>{
 
-  
-
-  router.get("/",(req,res)=>{
-    res.render("index.ejs");
-  })
-
-  // router.get("/users/register", (req,res)=>{
-  //   res.render("register.ejs");
-
-    
-  // })
-
-  router.get("/users/login", (req,res)=>{
-    res.render("login.ejs");
-  })
-
-
-
+ router.use(cookieParser());
 
   router.get("/select", (req, res)=>{
     User.findAll()
@@ -45,7 +28,7 @@ db.sequelize.sync().then((req) =>{
 
 
    router.post("/register", async (req,res) =>{
-    const {email, password } = req.body;
+    const { email, password } = req.body;
     await bcrypt.hash(password, 10).then((hash)=>{
       User.create({
         email: email,
@@ -74,10 +57,13 @@ db.sequelize.sync().then((req) =>{
     // 2. Search to see if email is attatched to a user in DB 
     const user = await User.findOne({where: {email: email}});
     // 3. Check if the user existe
-    if(!user) res.status(400).json({error:"User Doesn't Exist"});
+    if(!user){
+      res.status(400).json({error:"User Doesn't Exist"});
     
+      return;
+    } 
     // 4. Check is the password is the same 
-    // const dbPassword = user.password;
+
     bcrypt.compare(password, user.password).then((match)=>{
       if(!match) {
         res
@@ -87,22 +73,27 @@ db.sequelize.sync().then((req) =>{
       else {
     //5. generate access Token 
         const accessToken = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET);
-        // console.log(accessToken);
         res.json ({accessToken: accessToken})
-        
+        console.log(accessToken);
 
-    
+
+      
       }
-    })
+    }
+    )})
+
+    //User route
+
+    router.get('/user',(req,res)=>{
+      const cookie = req.cookies['jwt']
+
+      res.send(cookie)
+     })
 
    
 
-
-    
-        // Our register logic ends here
-      });
 })
 
 
-module.exports = router 
 
+module.exports = router 

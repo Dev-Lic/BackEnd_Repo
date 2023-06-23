@@ -6,9 +6,9 @@ const pool = new sql.ConnectionPool(
     {
       user: "sa",
       password: "1234",
-      server: "DESKTOP-FJ1PE31\\MSSQLSERVER01",
+      server: 'DESKTOP-3EMFDSG', 
       database: "TEConnectivity",
-  
+   
       encrypt: true,
       pool: {
         idleTimeoutMillis: 30000,

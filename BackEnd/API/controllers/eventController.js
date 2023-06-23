@@ -59,7 +59,10 @@ const getInvoicebyId = (req, res) => {
  async function  addInvoice (req, res) {
 
 
-const {Billing_Org, Billing_Dept, Charged_Org, Charged_Org_Name, Charged_Dep, Fiscal_Month, Charge_Type, Charge_Type_Description, Charge_Unit, Charge_Description = 'Default Description', Charge_Amount, Billable_Amount, Hyperion_Profit_Center, SAP_Profit_Center, Charge_Category, Revenue_Type, Charged_entity, Year, Month} = req.body;
+const {Billing_Org, Billing_Dept, Charged_Org, Charged_Org_Name, Charged_Dep, Fiscal_Month, 
+   Charge_Type, Charge_Type_Description, Charge_Unit, Charge_Description = 'Default Description', 
+   Charge_Amount, Billable_Amount, Hyperion_Profit_Center, SAP_Profit_Center, 
+   Charge_Category, Revenue_Type, Charged_entity, Year, Month} = req.body;
 
 
 const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Org],[Charged_Org_Name],[Charged_Dep],[Fiscal_Month],[Charge_Type],[Charge_Type_Description],[Charge_Unit],[Charge_Description],[Charge_Amount],[Billable_Amount],[Hyperion_Profit_Center],[SAP_Profit_Center],[Charge_Category],[Revenue_Type],[Charged_entity],[Year],[Month])VALUES( @Billing_Org, @Billing_Dept, @Charged_Org, @Charged_Org_Name, @Charged_Dep, @Fiscal_Month, @Charge_Type, @Charge_Type_Description,@Charge_Unit,@Charge_Description,@Charge_Amount,@Billable_Amount,@Hyperion_Profit_Center,@SAP_Profit_Center,@Charge_Category,@Revenue_Type,@Charged_entity,@Year,@Month) "
@@ -92,7 +95,7 @@ const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Or
       request.query(query)
       .then((result) => {
          console.log("result : ", result)
-        res.status(200).send("Invoice saved successfully.");
+        res.status(200).json({ message: 'Invoice saved successfully.' });
       })
       .catch((err) => {
         console.log(err);
@@ -105,7 +108,7 @@ const query = "INSERT INTO [dbo].[TEIS]([Billing_Org],[Billing_Dept],[Charged_Or
     console.log(err);
     res.status(500).send("Error while connecting to the database.");
   });
-      };
+};
  
  //--------------------Post methode to add an invoice Ends Here--------------------
 
